@@ -1,0 +1,11 @@
+Package: bfdaFlu
+Title: Implement Bayesian Functional Data Analysis on Influenza Data
+Version: 0.0.0.9000
+Authors@R: person("Nehemias", "Ulloa", email = "nulloa1@iastate.edu", role = c("aut", "cre"))
+Description: This package hosts the functions to conduct bayesian functional data analysis on the influenza data.
+Depends: R (>= 3.3.2)
+Imports: rstan
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1.9000

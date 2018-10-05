@@ -1,2 +1,2 @@
 # bfdaFlu
-A R package to inplement Bayesian Functional Data Analysis on Influenza Data
+A R package to implement Bayesian Functional Data Analysis on Influenza Data
