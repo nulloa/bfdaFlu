@@ -2,10 +2,10 @@ data {
   int<lower=1> N_obs; //total number of obs per season-region
   int<lower=1> N_subj; //total number of season-region combination
   int<lower=1> dim_space; // number of eigen functions
-  int<lower=1> N_group; // number of seasons
+  int<lower=1> N_group; // number of groups
   real W[N_subj, N_obs]; // observed value of flu
   real E[N_obs, dim_space]; // eigenfns of smoothed data
-  vector<lower=1> group[N_subj]; // season indicator variable
+  int<lower=1> group[N_subj]; // group indicator variable
 }
 
 parameters {
