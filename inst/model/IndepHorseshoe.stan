@@ -8,8 +8,8 @@ data {
 
 parameters {
   real<lower=0> eps; // SD for data model
-  real<lower=0> tau; // SD for beta or Global Shrinkage Param
-  vector<lower=0>[dim_space] lamb; // SD for beta or Local Shrinkage Param
+  vector<lower=0> tau[N_subj]; // SD for beta or Global Shrinkage Param
+  vector<lower=0>[dim_space] lamb[N_subj]; // SD for beta or Local Shrinkage Param
   vector[dim_space] beta[N_subj];
 }
 
@@ -54,8 +54,13 @@ transformed parameters {
 model {
   
   tau ~ student_t(4, 0, 1); //Prior on Global Shrinkage
-  lamb ~ student_t(4, 0, 1); //Prior on  SD
   eps ~ student_t(4, 0, 1); //Prior on model SD
+  
+  for(s in 1:N_subj){
+    for(j in 1:dim_space){
+      lamb[i,j] ~ student_t(4, 0, 1); //Prior on  SD
+    }
+  }
   
   for(i in 1:N_subj){
     for(t in 1:N_obs){
@@ -63,7 +68,7 @@ model {
     }
     
     for (j in 1:dim_space){
-      beta[i,j] ~ normal(0, lamb[j]*tau);
+      beta[i,j] ~ normal(0, lamb[i,j]*tau[i]);
 	  }
 
   }
