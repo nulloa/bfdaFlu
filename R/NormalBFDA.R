@@ -21,7 +21,7 @@
 #' @export
 
 
-horseshoe_bfda <- function(W, E, model="Indep", group=NULL, niter=4000, nwarmup=niter/2, nchains=3, thin=1, inits=NULL){
+normal_bfda <- function(W, E, model="Indep", group=NULL, niter=4000, nwarmup=niter/2, nchains=3, thin=1, inits=NULL){
   # Load Library
   require(rstan)
   
