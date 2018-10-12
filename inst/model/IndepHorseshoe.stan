@@ -58,7 +58,7 @@ model {
   
   for(s in 1:N_subj){
     for(j in 1:dim_space){
-      lamb[i,j] ~ student_t(4, 0, 1); //Prior on  SD
+      lamb[s,j] ~ student_t(4, 0, 1); //Prior on  SD
     }
   }
   
