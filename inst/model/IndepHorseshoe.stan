@@ -8,7 +8,7 @@ data {
 
 parameters {
   real<lower=0> eps; // SD for data model
-  vector<lower=0> tau[N_subj]; // SD for beta or Global Shrinkage Param
+  vector<lower=0>[N_subj] tau; // SD for beta or Global Shrinkage Param
   vector<lower=0>[dim_space] lamb[N_subj]; // SD for beta or Local Shrinkage Param
   vector[dim_space] beta[N_subj];
 }
