@@ -1,4 +1,4 @@
-#' horseshoe_bfda
+#' normal_bfda
 #' 
 #' Runs BFDA with horseshoe prior on beta
 #'
@@ -49,11 +49,11 @@ horseshoe_bfda <- function(W, E, model="Indep", group=NULL, niter=4000, nwarmup=
   # Set up the model in stan
   model.name <- NULL
   if(model=="Indep"){
-    model.name <- "IndepHorseshoe.stan"
+    #model.name <- "IndepNormal.stan"
   }else if(model=="Group Indep"){
-    model.name <- "GroupIndepHorseshoe.stan"
+    #model.name <- "GroupIndepNormal.stan"
   }else if(model=="Group Hier"){
-    model.name <- "GroupHierHorseshoe.stan"
+    model.name <- "GroupHierNormal.stan"
   }else{
     cat("Misspecified model. Model needs to be 'Indep', 'Group Indep', or 'Group Hier'")
     stop()

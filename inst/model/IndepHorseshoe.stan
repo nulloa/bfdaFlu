@@ -63,7 +63,7 @@ model {
     }
     
     for (j in 1:dim_space){
-      beta[i,j] ~ normal(0, (lamb[j]^2)*tau^2);
+      beta[i,j] ~ normal(0, lamb[j]*tau);
 	  }
 
   }
