@@ -12,43 +12,43 @@ parameters {
   real<lower=0> eps; // SD for data model
   vector<lower=0>[N_group] tau; // SD for beta or Global Shrinkage Param
   vector<lower=0>[dim_space] lamb[N_group]; // SD for beta or Local Shrinkage Param
-  vector[dim_space] beta[N_group];
+  vector[dim_space] beta[N_subj];
 }
 
 transformed parameters {
   vector[N_obs] m[N_subj]; // Underlying smooth function
   for(i in 1:N_subj){
     for(t in 1:N_obs){
-      m[i,t] = beta[group[i],1]*E[t,1]+
-	             beta[group[i],2]*E[t,2]+
-	             beta[group[i],3]*E[t,3]+
-	             beta[group[i],4]*E[t,4]+
-	             beta[group[i],5]*E[t,5]+
-	             beta[group[i],6]*E[t,6]+
-	             beta[group[i],7]*E[t,7]+
-	             beta[group[i],8]*E[t,8]+
-	             beta[group[i],9]*E[t,9]+
-	             beta[group[i],10]*E[t,10]+
-	             beta[group[i],11]*E[t,11]+
-	             beta[group[i],12]*E[t,12]+
-	             beta[group[i],13]*E[t,13]+
-	             beta[group[i],14]*E[t,14]+
-	             beta[group[i],15]*E[t,15]+
-	             beta[group[i],16]*E[t,16]+
-	             beta[group[i],17]*E[t,17]+
-	             beta[group[i],18]*E[t,18]+
-	             beta[group[i],19]*E[t,19]+
-	             beta[group[i],20]*E[t,20]+
-	             beta[group[i],21]*E[t,21]+
-	             beta[group[i],22]*E[t,22]+
-	             beta[group[i],23]*E[t,23]+
-	             beta[group[i],24]*E[t,24]+
-	             beta[group[i],25]*E[t,25]+
-	             beta[group[i],26]*E[t,26]+
-	             beta[group[i],27]*E[t,27]+
-	             beta[group[i],28]*E[t,28]+
-	             beta[group[i],29]*E[t,29]+
-	             beta[group[i],30]*E[t,20];
+      m[i,t] = beta[i,1]*E[t,1]+
+	             beta[i,2]*E[t,2]+
+	             beta[i,3]*E[t,3]+
+	             beta[i,4]*E[t,4]+
+	             beta[i,5]*E[t,5]+
+	             beta[i,6]*E[t,6]+
+	             beta[i,7]*E[t,7]+
+	             beta[i,8]*E[t,8]+
+	             beta[i,9]*E[t,9]+
+	             beta[i,10]*E[t,10]+
+	             beta[i,11]*E[t,11]+
+	             beta[i,12]*E[t,12]+
+	             beta[i,13]*E[t,13]+
+	             beta[i,14]*E[t,14]+
+	             beta[i,15]*E[t,15]+
+	             beta[i,16]*E[t,16]+
+	             beta[i,17]*E[t,17]+
+	             beta[i,18]*E[t,18]+
+	             beta[i,19]*E[t,19]+
+	             beta[i,20]*E[t,20]+
+	             beta[i,21]*E[t,21]+
+	             beta[i,22]*E[t,22]+
+	             beta[i,23]*E[t,23]+
+	             beta[i,24]*E[t,24]+
+	             beta[i,25]*E[t,25]+
+	             beta[i,26]*E[t,26]+
+	             beta[i,27]*E[t,27]+
+	             beta[i,28]*E[t,28]+
+	             beta[i,29]*E[t,29]+
+	             beta[i,30]*E[t,20];
     }
   }
 }
@@ -71,7 +71,7 @@ model {
     }
     
     for (j in 1:dim_space){
-      beta[group[i],j] ~ normal(0, lamb[group[i],j]*tau[group[i]]);
+      beta[i,j] ~ normal(0, lamb[group[i],j]*tau[group[i]]);
 	  }
 
   }
