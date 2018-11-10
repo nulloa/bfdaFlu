@@ -39,7 +39,7 @@ horseshoe_bfda <- function(W, E, model="Indep", group=NULL, niter=4000, nwarmup=
              )
   
   # Include Group variable if necessary
-  if(model != "Indep"){
+  if(!(model %in% c("Indep", "Group Indep"))){
     group_list = list(group=group,
                       N_group=length(unique(group)))
     dat <- c(dat, group_list)
