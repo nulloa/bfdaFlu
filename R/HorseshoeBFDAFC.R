@@ -36,6 +36,8 @@ horseshoe_bfda_fc <- function(W, E, model="Indep", group=NULL, niter=4000, nwarm
   W$week = W$Var2
   W$Var1 = W$Var2 = NULL
   
+  W = W[complete.cases(W),]
+  
   dat = list(W = W$value,
              subj = W$subj,
              week = W$week,
