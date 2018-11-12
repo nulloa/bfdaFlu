@@ -61,7 +61,7 @@ model {
     W[i]~normal(m[subj[i], week[i]], eps);
   }
   
-  for(i in 1:N_subj)  
+  for(i in 1:N_subj){ 
     for (j in 1:dim_space){
       beta[i,j] ~ normal(0, 10);
 	  }
