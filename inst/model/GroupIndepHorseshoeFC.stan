@@ -66,7 +66,7 @@ model {
   }
   
   for(i in 1:N_obs){
-    W[i]~normal(m[subj[i],week[t]], eps);
+    W[i]~normal(m[subj[i],week[i]], eps);
   }
     
     
