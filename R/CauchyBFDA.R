@@ -1,6 +1,6 @@
 #' cauchy_bfda
 #' 
-#' Runs BFDA with horseshoe prior on beta
+#' Runs BFDA with horseshoe prior on betas and cauchy prior on sd
 #'
 #' @param W matrix of response
 #' @param E Eigen functions that correspond to W
