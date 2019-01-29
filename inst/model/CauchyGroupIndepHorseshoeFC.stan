@@ -17,9 +17,10 @@ parameters {
 }
 
 transformed parameters {
-    real<lower=0> epstmp;
+  real<lower=0> epstmp;
   vector<lower=0>[N_subj] tau;
   vector<lower=0>[dim_space] lamb[N_subj];
+  vector[N_weeks] m[N_subj]; // Underlying smooth function
   
   for(s in 1:N_subj){
     tau[s] = fabs(lambtmp[s]);
@@ -28,7 +29,6 @@ transformed parameters {
     }
   }
   
-  vector[N_weeks] m[N_subj]; // Underlying smooth function
   for(i in 1:N_subj){
     for(t in 1:N_weeks){
       m[i,t] = beta[i,1]*E[t,1]+
