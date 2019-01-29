@@ -19,9 +19,9 @@ transformed parameters {
   vector<lower=0>[dim_space] lamb[N_group];
   vector<lower=0>[N_group] tau;
   real<lower=0> eps;
+  vector[N_obs] m[N_subj]; // Underlying smooth function
   
   eps = fabs(epstmp);
-  
   
   for(g in 1:N_group){
     tau[g] = fabs(tautmp[g]); //Prior on Global Shrinkage
@@ -31,7 +31,6 @@ transformed parameters {
   }
   
   
-  vector[N_obs] m[N_subj]; // Underlying smooth function
   for(i in 1:N_subj){
     for(t in 1:N_obs){
       m[i,t] = beta[i,1]*E[t,1]+
