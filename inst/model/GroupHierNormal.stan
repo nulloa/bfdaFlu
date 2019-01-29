@@ -10,7 +10,6 @@ data {
 
 parameters {
   real<lower=0> eps; // SD for data model
-  real<lower=0> alphaL; // SD for t prior
   vector<lower=0>[N_group] tau; // SD for beta or Global Shrinkage Param
   vector<lower=0>[dim_space] lamb[N_group]; // SD for beta or Local Shrinkage Param
   vector[dim_space] beta[N_group];
@@ -57,12 +56,11 @@ transformed parameters {
 model {
   
   eps ~ student_t(4, 0, 1); //Prior on model SD
-  alphaL ~ inv_gamma(1, 1); //Prior on std of t dist
   
   
   for(g in 1:N_group){
     for(j in 1:dim_space){
-      lamb[g,j] ~ student_t(4, 0, alphaL); //Prior on  SD
+      lamb[g,j] ~ student_t(4, 0, 1); //Prior on  SD
     }
   }
   
