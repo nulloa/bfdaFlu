@@ -5,6 +5,7 @@
 #' @param W matrix of response
 #' @param E Eigen functions that correspond to W
 #' @param model Which hierarchy structure to be used: 'Indep' (default), 'Group Indep', or 'Group Hier'
+#' @param prior Which prior to use to specify model: 'HS'(Horseshoe), 'HSt'(Horseshoe with t), 'LASSO', 'FHS'(Finnish HS) 
 #' @param group Grouping variable to be included if model is Region or Season 
 #' @param niter number of interations to be run (default=4000)
 #' @param nchains number of chains to be run (default=3)
@@ -21,7 +22,7 @@
 #' @export
 
 
-horseshoe_bfda <- function(W, E, model="Indep", group=NULL, niter=4000, nwarmup=niter/2, nchains=3, thin=1, inits=NULL){
+horseshoe_bfda <- function(W, E, model="Indep", prior="HS", group=NULL, niter=6000, nwarmup=niter/2, nchains=3, thin=1, inits=NULL){
   # Load Library
   require(rstan)
   
@@ -49,11 +50,27 @@ horseshoe_bfda <- function(W, E, model="Indep", group=NULL, niter=4000, nwarmup=
   # Set up the model in stan
   model.name <- NULL
   if(model=="Indep"){
-    model.name <- "IndepHorseshoe.stan"
+    model.name <- "Indep.stan"
   }else if(model=="Group Indep"){
-    model.name <- "GroupIndepHorseshoe.stan"
+    if(prior=="HS"){
+      model.name <- "GroupIndepHS.stan"
+    }else if(prior=="HSt"){
+      model.name <- "GroupIndepHSt.stan"
+    }else if(prior=="FHS"){
+      model.name <- "GroupIndepFHS.stan"
+    }else if(prior=="LASSO"){
+      model.name <- "GroupIndepLASSO.stan"
+    }
   }else if(model=="Group Hier"){
-    model.name <- "GroupHierHorseshoe.stan"
+    if(prior=="HS"){
+      model.name <- "GroupHierHS.stan"
+    }else if(prior=="HSt"){
+      model.name <- "GroupHierHSt.stan"
+    }else if(prior=="FHS"){
+      model.name <- "GroupHierFHS.stan"
+    }else if(prior=="LASSO"){
+      model.name <- "GroupHierLASSO.stan"
+    }
   }else{
     cat("Misspecified model. Model needs to be 'Indep', 'Group Indep', or 'Group Hier'")
     stop()
