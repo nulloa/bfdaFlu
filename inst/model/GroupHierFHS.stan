@@ -29,7 +29,7 @@ transformed parameters {
     
   for(s in 1:N_subj){
     for(j in 1:dim_space){
-      lamb_tilde[s,j] = sqrt( c2[group[s]] * square(lamb[group[s],j]) ./ (c2[group[s]] + square(tau[group[s]]) * square(lamb[group[s],j])) );
+      lamb_tilde[group[s],j] = sqrt( c2[group[s]] * square(lamb[group[s],j]) ./ (c2[group[s]] + square(tau[group[s]]) * square(lamb[group[s],j])) );
     }
   }
   
