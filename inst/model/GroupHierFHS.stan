@@ -75,7 +75,7 @@ model {
   
   
   for(g in 1:N_group){
-    c2[g] ~ inv_gamma(half_slab_df, half_slab_df * slab_scale2) // Implies that marginally beta ~ student_t(slab_df, 0, slab_scale)
+    c2[g] ~ inv_gamma(half_slab_df, half_slab_df * slab_scale2); // Implies that marginally beta ~ student_t(slab_df, 0, slab_scale)
     tau[g] ~ cauchy(0, 1); //Prior on Global Shrinkage
     for(j in 1:dim_space){
       lamb[g,j] ~ cauchy(0, 1); //Prior on  SD

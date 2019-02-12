@@ -69,7 +69,7 @@ transformed parameters {
 
 model {
   
-  c2 ~ inv_gamma(half_slab_df, half_slab_df * slab_scale2) // Implies that marginally beta ~ student_t(slab_df, 0, slab_scale)
+  c2 ~ inv_gamma(half_slab_df, half_slab_df * slab_scale2); // Implies that marginally beta ~ student_t(slab_df, 0, slab_scale)
   tau ~ cauchy(0,1); //Prior on Global Shrinkage
   eps ~ cauchy(0,1); //Prior on model SD
   
