@@ -1,36 +1,20 @@
 data {
-  int<lower=1> N_obs; //total number of obs
+  int<lower=1> N_obs; //total number of obs per season-region
   int<lower=1> N_subj; //total number of season-region combination
-  int<lower=1> N_weeks; //total number of weeks ie obs per season-region
   int<lower=1> dim_space; // number of eigen functions
-  real W[N_obs]; // observed value of flu
-  int week[N_obs]; // indicator for the week observed
-  int subj[N_obs]; // indicator for the observed subject
-  real E[N_weeks, dim_space]; // observed value of flu
+  real W[N_subj, N_obs]; // observed value of flu
+  real E[N_obs, dim_space]; // observed value of flu
 }
 
 parameters {
-  real epstmp; // SD for data model
-  vector[N_subj] tautmp; // SD for beta or Global Shrinkage Param
-  vector[dim_space] lambtmp[N_subj]; // SD for beta or Local Shrinkage Param
+  real<lower=0> eps; // SD for data model
   vector[dim_space] beta[N_subj];
 }
 
 transformed parameters {
-  real<lower=0> epstmp;
-  vector<lower=0>[N_subj] tau;
-  vector<lower=0>[dim_space] lamb[N_subj];
-  vector[N_weeks] m[N_subj]; // Underlying smooth function
-  
-  for(s in 1:N_subj){
-    tau[s] = fabs(lambtmp[s]);
-    for(j in 1:dim_space){
-      lamb[s,j] = fabs(lambtmp[s,j]);
-    }
-  }
-  
+  vector[N_obs] m[N_subj]; // Underlying smooth function
   for(i in 1:N_subj){
-    for(t in 1:N_weeks){
+    for(t in 1:N_obs){
       m[i,t] = beta[i,1]*E[t,1]+
 	         beta[i,2]*E[t,2]+
 	         beta[i,3]*E[t,3]+
@@ -67,23 +51,16 @@ transformed parameters {
 
 model {
   
-  tautmp ~ cauchy(0,1); //Prior on Global Shrinkage
-  epstmp ~ cauchy(0,1); //Prior on model SD
+  eps ~ student_t(4, 0, 1); //Prior on model SD
   
-  for(s in 1:N_subj){
-    for(j in 1:dim_space){
-      lambtmp[s,j] ~ cauchy(0,1); //Prior on  SD
-    }
-  }
-  
-  for(i in 1:N_obs){
-    W[i]~normal(m[subj[i],week[i]], eps);
-  }
-    
-    
+
   for(i in 1:N_subj){
+    for(t in 1:N_obs){
+      W[i,t]~normal(m[i,t], eps);
+    }
+    
     for (j in 1:dim_space){
-      beta[i,j] ~ normal(0, lamb[i,j]*tau[i]);
+      beta[i,j] ~ double_exponential(0,2);
 	  }
 
   }

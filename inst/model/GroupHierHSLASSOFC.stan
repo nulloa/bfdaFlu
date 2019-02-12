@@ -12,28 +12,14 @@ data {
 }
 
 parameters {
-  real<lower=0> epstmp; // SD for data model
-  vector[N_group] tautmp; // SD for beta or Global Shrinkage Param
-  vector[dim_space] lambtmp[N_group]; // SD for beta or Local Shrinkage Param
+  real<lower=0> eps; // SD for data model
+  vector<lower=0>[N_group] tau; // SD for beta or Global Shrinkage Param
+  vector<lower=0>[dim_space] lamb[N_group]; // SD for beta or Local Shrinkage Param
   vector[dim_space] beta[N_subj];
 }
 
 transformed parameters {
-
-  vector<lower=0>[dim_space] lamb[N_group];
-  vector<lower=0>[N_group] tau;
-  real<lower=0> eps;
   vector[N_weeks] m[N_subj]; // Underlying smooth function
-  
-  eps = fabs(epstmp);
-  
-  for(g in 1:N_group){
-    tau[g] = fabs(tautmp[g]); //Prior on Global Shrinkage
-    for(j in 1:dim_space){
-      lamb[g,j] = fabs(lambtmp[g,j]); //Prior on  SD
-    }
-  }
-  
   for(i in 1:N_subj){
     for(t in 1:N_weeks){
       m[i,t] = beta[i,1]*E[t,1]+
@@ -72,13 +58,11 @@ transformed parameters {
 
 model {
   
-  epstmp ~ cauchy(0, 1); //Prior on model SD
+  eps ~ student_t(4, 0, 1); //Prior on model SD
+  
   
   for(g in 1:N_group){
-    tautmp[g] ~ cauchy(0, 1); //Prior on Global Shrinkage
-    for(j in 1:dim_space){
-      lambtmp[g,j] ~ cauchy(0, 1); //Prior on  SD
-    }
+    tau[g] ~ student_t(4, 0, 1); //Prior on Global Shrinkage
   }
   
   
@@ -88,7 +72,7 @@ model {
 
   for(i in 1:N_subj){
     for (j in 1:dim_space){
-      beta[i,j] ~ normal(0, lamb[group[i],j]*tau[group[i]]);
+      beta[i,j] ~ double_exponential(0,tau[group[i]]);
 	  }
 
   }

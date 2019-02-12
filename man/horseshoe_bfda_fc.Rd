@@ -4,8 +4,9 @@
 \alias{horseshoe_bfda_fc}
 \title{horseshoe_bfda_fc}
 \usage{
-horseshoe_bfda_fc(W, E, model = "Indep", group = NULL, niter = 4000,
-  nwarmup = niter/2, nchains = 3, thin = 1, inits = NULL)
+horseshoe_bfda_fc(W, E, model = "Indep", prior = "HS", group = NULL,
+  niter = 6000, nwarmup = niter/2, nchains = 3, thin = 1,
+  inits = NULL)
 }
 \arguments{
 \item{W}{matrix of response}
@@ -13,6 +14,8 @@ horseshoe_bfda_fc(W, E, model = "Indep", group = NULL, niter = 4000,
 \item{E}{Eigen functions that correspond to W}
 
 \item{model}{Which hierarchy structure to be used: 'Indep' (default), 'Group Indep', or 'Group Hier'}
+
+\item{prior}{Which prior to use to specify model: 'HS'(Horseshoe), 'HSt'(Horseshoe with t), 'LASSO', 'FHS'(Finnish HS)}
 
 \item{group}{Grouping variable to be included if model is Region or Season}
 
