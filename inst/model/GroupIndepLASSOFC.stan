@@ -12,6 +12,7 @@ data {
 parameters {
   real<lower=0> eps; // SD for data model
   vector[dim_space] beta[N_subj];
+  vector<lower=0>[N_obs] tau; // SD for beta or Global Shrinkage Param
 }
 
 transformed parameters {
@@ -56,6 +57,10 @@ model {
   
   eps ~ student_t(4, 0, 1); //Prior on model SD
   
+  for(g in 1:N_obs){
+    tau[g] ~ student_t(4, 0, 1); //Prior on Global Shrinkage
+  }
+  
   for(i in 1:N_obs){
     W[i]~normal(m[subj[i],week[i]], eps);
   }
@@ -63,7 +68,7 @@ model {
     
   for(i in 1:N_subj){
     for (j in 1:dim_space){
-      beta[i,j] ~ double_exponential(0,2);
+      beta[i,j] ~ double_exponential(0,tau[i]);
 	  }
 
   }
