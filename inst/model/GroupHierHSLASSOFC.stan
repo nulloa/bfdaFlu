@@ -57,7 +57,7 @@ transformed parameters {
 
 model {
   
-  eps ~ student_t(4, 0, 1); //Prior on model SD
+  eps ~ cauchy(0,1); //Prior on model SD
   
   
   for(g in 1:N_group){

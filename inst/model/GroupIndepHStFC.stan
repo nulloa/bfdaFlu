@@ -57,7 +57,7 @@ transformed parameters {
 model {
   
   tau ~ student_t(4, 0, 1); //Prior on Global Shrinkage
-  eps ~ student_t(4, 0, 1); //Prior on model SD
+  eps ~ cauchy(0,1); //Prior on model SD
   
   for(s in 1:N_subj){
     for(j in 1:dim_space){

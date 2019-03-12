@@ -9,7 +9,7 @@ data {
 parameters {
   real<lower=0> eps; // SD for data model
   vector[dim_space] beta[N_subj];
-  vector<lower=0>[N_obs] tau; // SD for beta or Global Shrinkage Param
+  vector<lower=0>[N_subj] tau; // SD for beta or Global Shrinkage Param
 }
 
 transformed parameters {
@@ -52,11 +52,8 @@ transformed parameters {
 
 model {
   
-  eps ~ student_t(4, 0, 1); //Prior on model SD
-  
-  for(g in 1:N_obs){
-    tau[g] ~ student_t(4, 0, 1); //Prior on Global Shrinkage
-  }
+  eps ~ cauchy(0,1); //Prior on model SD
+  tau ~ student_t(4, 0, 1); //Prior on Global Shrinkage
 
   for(i in 1:N_subj){
     for(t in 1:N_obs){
